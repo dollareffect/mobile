@@ -1,0 +1,56 @@
+{
+  "plugins": ["prettier", "react", "react-native"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "all",
+        "singleQuote": true
+      }
+    ],
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "no-unused-expressions": 0,
+    "new-cap": 0,
+    "no-plusplus": 0,
+    "no-class-assign": 0,
+    "no-duplicate-imports": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "react/jsx-filename-extension": [
+      0,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/jsx-no-bind": [
+      1,
+      {
+        "ignoreRefs": false,
+        "allowArrowFunctions": false,
+        "allowBind": false
+      }
+    ],
+    "react/sort-comp": 0,
+    "react/prefer-stateless-function": 0,
+    "react/forbid-prop-types": 1,
+    "react/prop-types": 0,
+    "react/require-default-props": 0,
+    "react/no-unused-prop-types": 0,
+    "global-require": [0]
+  },
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "parser": "babel-eslint",
+  "globals": {
+    "fetch": false,
+    "FormData": false
+  }
+}
