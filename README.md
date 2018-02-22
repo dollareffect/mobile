@@ -1,6 +1,6 @@
 # Dollar Effect Mobile App
 
-[![CircleCI](https://circleci.com/gh/dollareffect/mobile.svg?style=svg)](https://circleci.com/gh/dollareffect/mobile)
+[![CircleCI](https://circleci.com/gh/dollareffect/mobile/tree/master.svg?style=svg)](https://circleci.com/gh/dollareffect/mobile/tree/master)
 
 ## How to Setup
 
