@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout
       - run: yarn
+      - run: yarn eslint
       - run: yarn run test
       - persist_to_workspace:
           root: ~/project

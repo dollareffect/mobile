@@ -3,8 +3,8 @@ import React from 'react';
 import App from '../App';
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+import renderer from 'react-test-renderer'; // eslint-disable-line
 
 it('renders correctly', () => {
-  const tree = renderer.create(<App />);
+  const tree = renderer.create(<App />); // eslint-disable-line
 });

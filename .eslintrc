@@ -45,9 +45,6 @@
     "react/no-unused-prop-types": 0,
     "global-require": [0]
   },
-  "ecmaFeatures": {
-    "jsx": true
-  },
   "parser": "babel-eslint",
   "globals": {
     "fetch": false,
