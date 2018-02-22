@@ -1,5 +1,7 @@
 # Dollar Effect Mobile App
 
+[![CircleCI](https://circleci.com/gh/dollareffect/mobile.svg?style=svg)](https://circleci.com/gh/dollareffect/mobile)
+
 ## How to Setup
 
 **Step 1:** git clone this repo:
