@@ -5,7 +5,13 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "eslint": "eslint app/**",
-    "test": "jest"
+    "eslint-check":
+      "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "test": "jest",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": ["prettier --write", "git add"]
   },
   "dependencies": {
     "react": "16.2.0",
@@ -24,8 +30,10 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-react-native": "^3.2.1",
+    "husky": "^0.14.3",
     "jest": "22.4.0",
     "jest-junit": "^3.6.0",
+    "lint-staged": "^7.0.0",
     "prettier": "^1.10.2",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.2.0",
@@ -37,6 +45,11 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
     ]
+  },
+  "prettier": {
+    "jsxBracketSameLine": true,
+    "semi": true,
+    "singleQuote": true
   },
   "standard": {
     "globals": ["fetch", "FormData"]
