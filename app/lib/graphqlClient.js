@@ -1,7 +1,7 @@
 import {
   ApolloClient,
   InMemoryCache,
-  defaultDataIdFromObject
+  defaultDataIdFromObject,
 } from 'apollo-client-preset';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import Config from 'react-native-config';
@@ -9,7 +9,7 @@ import Config from 'react-native-config';
 const httpLink = new BatchHttpLink({
   uri: Config.GRAPHQL_URL,
   batchInterval: 10, // in milliseconds
-  batchMax: 10
+  batchMax: 10,
 });
 
 const cache = new InMemoryCache({
@@ -18,12 +18,12 @@ const cache = new InMemoryCache({
       return `${object.__typename}:${object.id}`;
     }
     return defaultDataIdFromObject(object); // fall back to default handling
-  }
+  },
 });
 
 const client = new ApolloClient({
   link: httpLink,
-  cache
+  cache,
 });
 
 export default client;
