@@ -5,18 +5,22 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "eslint": "eslint app/**",
-    "eslint-check":
-      "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "test": "jest",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "apollo-client-preset": "^1.0.8",
     "apollo-link-batch-http": "^1.2.0",
     "apollo-link-context": "^1.0.7",
+    "graphql": "^0.13.1",
+    "node-fetch": "^2.0.0",
     "react": "16.2.0",
     "react-apollo": "^2.0.4",
     "react-native": "0.53.3",
@@ -62,6 +66,9 @@
     "singleQuote": true
   },
   "standard": {
-    "globals": ["fetch", "FormData"]
+    "globals": [
+      "fetch",
+      "FormData"
+    ]
   }
 }
