@@ -6,7 +6,16 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - run: yarn
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn eslint
       - run: yarn run test
       - persist_to_workspace:
@@ -16,8 +25,18 @@ jobs:
       - store_test_results:
           path: ~/project/junit.xml
 
+  android:
+    working_directory: ~/project
+    docker:
+      - image: circleci/android:api-27-node8-alpha
+    steps:
+      - checkout
+      - run: yarn install
+      - run: cd android && ./gradlew assembleDebug
+
 workflows:
   version: 2
-  node-android-ios:
+  build_and_test:
     jobs:
       - build
+      - android
