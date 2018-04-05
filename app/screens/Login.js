@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  Keyboard,
+  Alert,
+} from 'react-native';
 import { Button, SocialIcon } from 'react-native-elements';
 import { graphql, compose } from 'react-apollo';
 import { LoginManager } from 'react-native-fbsdk';
+import _ from 'lodash';
 import {
   LoginWithEmailMutation,
   LoginWithFacebookMutation,
@@ -29,6 +38,7 @@ class LoginScreen extends Component<Props> {
   onChangePasswordText = text => this.setState({ password: text });
 
   onPressLoginButton = () => {
+    Keyboard.dismiss();
     this.setState({
       isLoggingInWithEmail: true,
     });
@@ -43,7 +53,16 @@ class LoginScreen extends Component<Props> {
       .then(result => {
         console.log('result', result);
       })
-      .catch(e => console.log(e))
+      .catch(error => {
+        console.log('error', error);
+        // only how first graphql error
+        const graphQLError = _.head(error.graphQLErrors);
+        if (graphQLError) {
+          Alert.alert('Error', graphQLError.message, [{ text: 'OK' }], {
+            cancelable: false,
+          });
+        }
+      })
       .finally(() => {
         this.setState({
           isLoggingInWithEmail: false,
@@ -52,6 +71,7 @@ class LoginScreen extends Component<Props> {
   };
 
   onPressFacebookButton = () => {
+    Keyboard.dismiss();
     this.setState({
       isLoggingInWithFacebook: true,
     });
@@ -62,7 +82,9 @@ class LoginScreen extends Component<Props> {
           console.log('result:', result);
         },
         error => {
-          console.error('Login fail with error:', error);
+          Alert.alert('Error', error.message, [{ text: 'OK' }], {
+            cancelable: false,
+          });
         },
       )
       .finally(() => {
@@ -75,56 +97,60 @@ class LoginScreen extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <View style={styles.textInputContainer}>
-          <Text style={styles.textInputTitle}>Email</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={this.onChangeEmailText}
-            value={this.state.email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            underlineColorAndroid="rgba(0,0,0,0)"
+        <KeyboardAvoidingView>
+          <Text style={styles.title}>Login</Text>
+          <View style={styles.textInputContainer}>
+            <Text style={styles.textInputTitle}>Email</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={this.onChangeEmailText}
+              value={this.state.email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              underlineColorAndroid="rgba(0,0,0,0)"
+            />
+          </View>
+
+          <View style={styles.textInputContainer}>
+            <Text style={styles.textInputTitle}>Password</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={this.onChangePasswordText}
+              value={this.state.password}
+              secureTextEntry
+              underlineColorAndroid="rgba(0,0,0,0)"
+            />
+          </View>
+
+          <Button
+            containerViewStyle={styles.loginButtonContainer}
+            buttonStyle={styles.loginButton}
+            rounded
+            title={this.state.isLoggingInWithEmail ? '' : 'Login'}
+            loading={this.state.isLoggingInWithEmail}
+            onPress={this.onPressLoginButton}
+            disabled={
+              this.state.isLoggingInWithEmail ||
+              this.state.isLoggingInWithFacebook ||
+              this.state.email.length === 0 ||
+              this.state.password.length === 0
+            }
           />
-        </View>
 
-        <View style={styles.textInputContainer}>
-          <Text style={styles.textInputTitle}>Password</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={this.onChangePasswordText}
-            value={this.state.password}
-            secureTextEntry
-            underlineColorAndroid="rgba(0,0,0,0)"
+          <SocialIcon
+            style={styles.facebookButton}
+            title="Sign In With Facebook"
+            button
+            type="facebook"
+            loading={this.state.isLoggingInWithFacebook}
+            onPress={this.onPressFacebookButton}
+            onLongPress={this.onPressFacebookButton}
+            disabled={
+              this.state.isLoggingInWithEmail ||
+              this.state.isLoggingInWithFacebook
+            }
           />
-        </View>
-
-        <Button
-          containerViewStyle={styles.loginButtonContainer}
-          buttonStyle={styles.loginButton}
-          rounded
-          title={this.state.isLoggingInWithEmail ? '' : 'Login'}
-          loading={this.state.isLoggingInWithEmail}
-          onPress={this.onPressLoginButton}
-          disabled={
-            this.state.isLoggingInWithEmail ||
-            this.state.isLoggingInWithFacebook
-          }
-        />
-
-        <SocialIcon
-          style={styles.facebookButton}
-          title="Sign In With Facebook"
-          button
-          type="facebook"
-          loading={this.state.isLoggingInWithFacebook}
-          onPress={this.onPressFacebookButton}
-          onLongPress={this.onPressFacebookButton}
-          disabled={
-            this.state.isLoggingInWithEmail ||
-            this.state.isLoggingInWithFacebook
-          }
-        />
+        </KeyboardAvoidingView>
       </View>
     );
   }
