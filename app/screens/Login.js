@@ -7,15 +7,17 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 import { Button, SocialIcon } from 'react-native-elements';
 import { graphql, compose } from 'react-apollo';
-import { LoginManager } from 'react-native-fbsdk';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import _ from 'lodash';
 import {
   LoginWithEmailMutation,
   LoginWithFacebookMutation,
 } from '../graphql/mutations';
+import { USER_TOKEN_KEY } from '../config/constants';
 
 type Props = {};
 class LoginScreen extends Component<Props> {
@@ -32,6 +34,41 @@ class LoginScreen extends Component<Props> {
       isLoggingInWithFacebook: false,
     };
   }
+
+  saveToken = async token => {
+    // save to async storage
+    await AsyncStorage.setItem(USER_TOKEN_KEY, token);
+  };
+
+  loginDidSuccess = () => {
+    const { navigate } = this.props.navigation;
+    navigate('App');
+  };
+
+  loginWithFacebook = async () => {
+    const fbAccessToken = await AccessToken.getCurrentAccessToken();
+    return this.props
+      .loginWithFacebook({
+        variables: {
+          facebookAccessToken: fbAccessToken.accessToken,
+        },
+      })
+      .then(async result => {
+        console.log('result', result);
+        await this.saveToken(result.data.loginWithFacebook.token);
+        this.loginDidSuccess();
+      })
+      .catch(error => {
+        console.log('error', error);
+        // only how first graphql error
+        const graphQLError = _.head(error.graphQLErrors);
+        if (graphQLError) {
+          Alert.alert('Error', graphQLError.message, [{ text: 'OK' }], {
+            cancelable: false,
+          });
+        }
+      });
+  };
 
   onChangeEmailText = text => this.setState({ email: text });
 
@@ -50,8 +87,10 @@ class LoginScreen extends Component<Props> {
           password: this.state.password,
         },
       })
-      .then(result => {
+      .then(async result => {
         console.log('result', result);
+        await this.saveToken(result.data.login.token);
+        this.loginDidSuccess();
       })
       .catch(error => {
         console.log('error', error);
@@ -87,6 +126,7 @@ class LoginScreen extends Component<Props> {
           });
         },
       )
+      .then(() => this.loginWithFacebook())
       .finally(() => {
         this.setState({
           isLoggingInWithFacebook: false,
