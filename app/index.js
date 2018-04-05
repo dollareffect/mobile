@@ -3,7 +3,7 @@ import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { configureStore, apolloClient } from './lib/configureStore';
-import Hello from './screens/Hello';
+import { AppSwitchNavigator } from './config/routes';
 
 export default class App extends PureComponent {
   constructor() {
@@ -18,12 +18,17 @@ export default class App extends PureComponent {
     };
   }
 
+  componentDidCatch(error, info) {
+    console.log('error: ', error);
+    console.log('info: ', info);
+  }
+
   render() {
     return (
       <ApolloProvider client={this.state.client}>
         <Provider store={this.state.store}>
-          <PersistGate persistor={this.state.persistor}>
-            <Hello />
+          <PersistGate loading={null} persistor={this.state.persistor}>
+            <AppSwitchNavigator />
           </PersistGate>
         </Provider>
       </ApolloProvider>
