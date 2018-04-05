@@ -10,7 +10,7 @@ export const LoginWithEmailMutation = gql`
 
 export const LoginWithFacebookMutation = gql`
   mutation($facebookAccessToken: String!) {
-    login(facebookAccessToken: $facebookAccessToken) {
+    loginWithFacebook(facebookAccessToken: $facebookAccessToken) {
       token
     }
   }
