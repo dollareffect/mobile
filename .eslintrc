@@ -23,6 +23,8 @@
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "no-console": 0,
     "react/jsx-filename-extension": [
       0,
       {
@@ -43,7 +45,8 @@
     "react/prop-types": 0,
     "react/require-default-props": 0,
     "react/no-unused-prop-types": 0,
-    "global-require": [0]
+    "global-require": [0],
+    "class-methods-use-this": 0
   },
   "parser": "babel-eslint",
   "globals": {
