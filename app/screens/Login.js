@@ -11,13 +11,13 @@ import {
 } from 'react-native';
 import { Button, SocialIcon } from 'react-native-elements';
 import { graphql, compose } from 'react-apollo';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import _ from 'lodash';
 import {
   LoginWithEmailMutation,
   LoginWithFacebookMutation,
 } from '../graphql/mutations';
 import { USER_TOKEN_KEY } from '../config/constants';
+import * as facebook from '../lib/facebook';
 
 type Props = {};
 class LoginScreen extends Component<Props> {
@@ -46,11 +46,11 @@ class LoginScreen extends Component<Props> {
   };
 
   loginWithFacebook = async () => {
-    const fbAccessToken = await AccessToken.getCurrentAccessToken();
+    const facebookAccessToken = await facebook.currentAccessToken();
     return this.props
       .loginWithFacebook({
         variables: {
-          facebookAccessToken: fbAccessToken.accessToken,
+          facebookAccessToken,
         },
       })
       .then(async result => {
@@ -62,11 +62,7 @@ class LoginScreen extends Component<Props> {
         console.log('error', error);
         // only how first graphql error
         const graphQLError = _.head(error.graphQLErrors);
-        if (graphQLError) {
-          Alert.alert('Error', graphQLError.message, [{ text: 'OK' }], {
-            cancelable: false,
-          });
-        }
+        throw Error(graphQLError.message);
       });
   };
 
@@ -115,18 +111,14 @@ class LoginScreen extends Component<Props> {
       isLoggingInWithFacebook: true,
     });
 
-    LoginManager.logInWithReadPermissions(['email', 'public_profile'])
-      .then(
-        result => {
-          console.log('result:', result);
-        },
-        error => {
-          Alert.alert('Error', error.message, [{ text: 'OK' }], {
-            cancelable: false,
-          });
-        },
-      )
+    facebook
+      .login()
       .then(() => this.loginWithFacebook())
+      .catch(error => {
+        Alert.alert('Error', error.message, [{ text: 'OK' }], {
+          cancelable: false,
+        });
+      })
       .finally(() => {
         this.setState({
           isLoggingInWithFacebook: false,
