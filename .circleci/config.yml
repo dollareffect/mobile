@@ -18,10 +18,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn eslint
       - run: yarn run test
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - node_modules
       - store_test_results:
           path: ~/project/junit.xml
 
@@ -39,4 +35,4 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - android
+      # - android
