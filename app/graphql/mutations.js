@@ -15,3 +15,39 @@ export const LoginWithFacebookMutation = gql`
     }
   }
 `;
+
+export const SignUpWithEmailMutation = gql`
+  mutation(
+    $email: String!
+    $username: String!
+    $name: String!
+    $password: String!
+  ) {
+    signup(
+      email: $email
+      username: $username
+      name: $name
+      password: $password
+    ) {
+      token
+    }
+  }
+`;
+
+export const SignUpWithFacebookMutation = gql`
+  mutation(
+    $email: String!
+    $username: String!
+    $name: String!
+    $facebookAccessToken: String!
+  ) {
+    signupWithFacebook(
+      email: $email
+      username: $username
+      name: $name
+      facebookAccessToken: $facebookAccessToken
+    ) {
+      token
+    }
+  }
+`;
