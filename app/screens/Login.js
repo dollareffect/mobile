@@ -109,6 +109,8 @@ class LoginScreen extends Component<Props> {
           Alert.alert('Error', graphQLError.message, [{ text: 'OK' }], {
             cancelable: false,
           });
+        } else {
+          throw Error(error.message);
         }
       })
       .finally(() => {
