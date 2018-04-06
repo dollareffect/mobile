@@ -62,7 +62,20 @@ class LoginScreen extends Component<Props> {
         console.log('error', error);
         // only how first graphql error
         const graphQLError = _.head(error.graphQLErrors);
-        throw Error(graphQLError.message);
+        if (graphQLError != null) {
+          if (_.startsWith(graphQLError.message, 'Could not find user')) {
+            // means this is a new user then we should redirect to signup
+            // fetch facebook profile to prefill signup form
+            facebook.fetchProfile().then(fbProfile => {
+              const { navigate } = this.props.navigation;
+              navigate('SignUp', {
+                fbProfile,
+              });
+            });
+          }
+        } else {
+          throw Error(error.message);
+        }
       });
   };
 
@@ -113,7 +126,7 @@ class LoginScreen extends Component<Props> {
 
     facebook
       .login()
-      .then(() => this.loginWithFacebook())
+      .then(this.loginWithFacebook)
       .catch(error => {
         Alert.alert('Error', error.message, [{ text: 'OK' }], {
           cancelable: false,
