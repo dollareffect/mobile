@@ -28,12 +28,24 @@ class SignUpScreen extends Component<Props> {
 
   constructor(props) {
     super(props);
+    let name = '';
+    let email = '';
+    let isFacebookSignUp = false;
+
+    if (props.navigation.state.params != null) {
+      const { fbProfile } = props.navigation.state.params;
+      if (fbProfile) {
+        ({ name, email } = fbProfile);
+        isFacebookSignUp = true;
+      }
+    }
+
     this.state = {
-      name: props.navigation.state.params.fbProfile.name || '',
+      name,
       username: '',
-      email: props.navigation.state.params.fbProfile.email || '',
+      email,
       password: '',
-      isFacebookSignUp: props.navigation.state.params.fbProfile !== null,
+      isFacebookSignUp,
       isCreatingAccount: false,
     };
   }
@@ -143,8 +155,14 @@ class SignUpScreen extends Component<Props> {
       if (!validator.isAlphanumeric(this.state.username))
         return reject(Error('Username must be alphanumeric.'));
 
+      if (this.state.username.length < 3)
+        return reject(Error('Username must be 3 or more characters.'));
+
       if (!validator.isEmail(this.state.email))
         return reject(Error('Email is invalid.'));
+
+      if (this.state.password.length < 3)
+        return reject(Error('Password must be 3 or more characters.'));
 
       return resolve();
     });
