@@ -141,6 +141,11 @@ class LoginScreen extends Component<Props> {
       });
   };
 
+  onPressSignUpButton = () => {
+    const { navigate } = this.props.navigation;
+    navigate('SignUp');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -197,6 +202,14 @@ class LoginScreen extends Component<Props> {
               this.state.isLoggingInWithFacebook
             }
           />
+
+          <Button
+            containerViewStyle={styles.signUpButtonContainer}
+            buttonStyle={styles.signUpButton}
+            rounded
+            title="Sign Up with Email"
+            onPress={this.onPressSignUpButton}
+          />
         </KeyboardAvoidingView>
       </View>
     );
@@ -236,6 +249,14 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   loginButton: {
+    height: 50,
+  },
+  signUpButtonContainer: {
+    marginTop: 40,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  signUpButton: {
     height: 50,
   },
   facebookButtonContainer: {
