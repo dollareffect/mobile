@@ -98,7 +98,7 @@ class SignUpScreen extends Component<Props> {
                 ...variables,
               },
             })
-            .then(result => result.data.signupWithFacebook.token);
+            .then(result => result.data.signUpWithFacebook.token);
         }
 
         return this.props
@@ -108,7 +108,7 @@ class SignUpScreen extends Component<Props> {
               ...variables,
             },
           })
-          .then(result => result.data.signup.token);
+          .then(result => result.data.signUp.token);
       })
       .then(this.saveToken)
       .then(() => {
@@ -220,8 +220,8 @@ class SignUpScreen extends Component<Props> {
         )}
 
         <Button
-          containerViewStyle={styles.loginButtonContainer}
-          buttonStyle={styles.loginButton}
+          containerViewStyle={styles.signUpButtonContainer}
+          buttonStyle={styles.signUpButton}
           rounded
           title={this.state.isCreatingAccount ? '' : 'Create Account'}
           loading={this.state.isCreatingAccount}
@@ -260,21 +260,12 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  loginButtonContainer: {
+  signUpButtonContainer: {
     marginTop: 40,
     marginLeft: 0,
     marginRight: 0,
   },
-  loginButton: {
-    height: 50,
-  },
-  facebookButtonContainer: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  facebookButton: {
-    marginLeft: 0,
-    marginRight: 0,
+  signUpButton: {
     height: 50,
   },
 });

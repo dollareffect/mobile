@@ -23,7 +23,7 @@ export const SignUpWithEmailMutation = gql`
     $name: String!
     $password: String!
   ) {
-    signup(
+    signUp(
       email: $email
       username: $username
       name: $name
@@ -41,7 +41,7 @@ export const SignUpWithFacebookMutation = gql`
     $name: String!
     $facebookAccessToken: String!
   ) {
-    signupWithFacebook(
+    signUpWithFacebook(
       email: $email
       username: $username
       name: $name
