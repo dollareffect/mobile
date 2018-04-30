@@ -23,13 +23,15 @@ import styles from './styles';
 
 type Props = {
   containerStyle: mixed,
-  loginDidSuccess?: () => void,
+  loginDidSuccess: () => void,
+  onPressSignUpButton: () => void,
 };
 
 class LoginForm extends PureComponent<Props> {
   static propTypes = {
     containerStyle: ViewPropTypes.style,
     loginDidSuccess: PropTypes.func,
+    onPressSignUpButton: PropTypes.func,
   };
 
   constructor() {
