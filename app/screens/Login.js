@@ -112,8 +112,6 @@ class LoginScreen extends Component<Props> {
         } else {
           throw Error(error.message);
         }
-      })
-      .finally(() => {
         this.setState({
           isLoggingInWithEmail: false,
         });
@@ -133,8 +131,6 @@ class LoginScreen extends Component<Props> {
         Alert.alert('Error', error.message, [{ text: 'OK' }], {
           cancelable: false,
         });
-      })
-      .finally(() => {
         this.setState({
           isLoggingInWithFacebook: false,
         });
