@@ -1,162 +1,17 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Keyboard,
-  Alert,
-  AsyncStorage,
-} from 'react-native';
-import { Button, SocialIcon } from 'react-native-elements';
-import { graphql, compose } from 'react-apollo';
-import _ from 'lodash';
-import moment from 'moment';
-import {
-  LoginWithEmailMutation,
-  LoginWithFacebookMutation,
-} from '../graphql/mutations';
-import {
-  USER_TOKEN_KEY,
-  USER_ID_KEY,
-  USER_TOKEN_EXPIRATION_KEY,
-  USER_REFRESH_TOKEN_KEY,
-} from '../config/constants';
-import * as facebook from '../lib/facebook';
+import { StyleSheet, View } from 'react-native';
+
+import LoginForm from '../components/LoginForm';
 
 type Props = {};
-class LoginScreen extends Component<Props> {
+export default class LoginScreen extends Component<Props> {
   static navigationOptions = {
     header: null,
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      email: '',
-      password: '',
-      isLoggingInWithEmail: false,
-      isLoggingInWithFacebook: false,
-    };
-  }
-
-  saveToken = async (token, refreshToken, userId) => {
-    // save to async storage
-    const tokenExpirationDate = moment().add('1', 'hours');
-
-    await AsyncStorage.multiSet([
-      [USER_TOKEN_KEY, token],
-      [USER_ID_KEY, userId],
-      [USER_REFRESH_TOKEN_KEY, refreshToken],
-      [USER_TOKEN_EXPIRATION_KEY, tokenExpirationDate.format()],
-    ]);
   };
 
   loginDidSuccess = () => {
     const { navigate } = this.props.navigation;
     navigate('App');
-  };
-
-  loginWithFacebook = async () => {
-    const facebookAccessToken = await facebook.currentAccessToken();
-    return this.props
-      .loginWithFacebook({
-        variables: {
-          facebookAccessToken,
-        },
-      })
-      .then(async result => {
-        console.log('result', result);
-        await this.saveToken(
-          result.data.loginWithFacebook.token,
-          result.data.loginWithFacebook.refreshToken,
-          result.data.loginWithFacebook.user.id,
-        );
-        this.loginDidSuccess();
-      })
-      .catch(error => {
-        console.log('error', error);
-        // only how first graphql error
-        const graphQLError = _.head(error.graphQLErrors);
-        if (graphQLError != null) {
-          if (_.startsWith(graphQLError.message, 'Could not find user')) {
-            // means this is a new user then we should redirect to signup
-            // fetch facebook profile to prefill signup form
-            facebook.fetchProfile().then(fbProfile => {
-              const { navigate } = this.props.navigation;
-              navigate('SignUp', {
-                fbProfile,
-              });
-            });
-          }
-        } else {
-          throw Error(error.message);
-        }
-      });
-  };
-
-  onChangeEmailText = text => this.setState({ email: text });
-
-  onChangePasswordText = text => this.setState({ password: text });
-
-  onPressLoginButton = () => {
-    Keyboard.dismiss();
-    this.setState({
-      isLoggingInWithEmail: true,
-    });
-
-    this.props
-      .loginWithEmail({
-        variables: {
-          email: this.state.email.toLowerCase(),
-          password: this.state.password,
-        },
-      })
-      .then(async result => {
-        console.log('result', result);
-        await this.saveToken(
-          result.data.login.token,
-          result.data.login.refreshToken,
-          result.data.login.user.id,
-        );
-
-        this.loginDidSuccess();
-      })
-      .catch(error => {
-        console.log('error', error);
-        // only how first graphql error
-        const graphQLError = _.head(error.graphQLErrors);
-        if (graphQLError) {
-          Alert.alert('Error', graphQLError.message, [{ text: 'OK' }], {
-            cancelable: false,
-          });
-        } else {
-          throw Error(error.message);
-        }
-        this.setState({
-          isLoggingInWithEmail: false,
-        });
-      });
-  };
-
-  onPressFacebookButton = () => {
-    Keyboard.dismiss();
-    this.setState({
-      isLoggingInWithFacebook: true,
-    });
-
-    facebook
-      .login()
-      .then(this.loginWithFacebook)
-      .catch(error => {
-        Alert.alert('Error', error.message, [{ text: 'OK' }], {
-          cancelable: false,
-        });
-        this.setState({
-          isLoggingInWithFacebook: false,
-        });
-      });
   };
 
   onPressSignUpButton = () => {
@@ -167,68 +22,10 @@ class LoginScreen extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <KeyboardAvoidingView>
-          <Text style={styles.title}>Login</Text>
-          <View style={styles.textInputContainer}>
-            <Text style={styles.textInputTitle}>Email</Text>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={this.onChangeEmailText}
-              value={this.state.email}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              underlineColorAndroid="rgba(0,0,0,0)"
-            />
-          </View>
-
-          <View style={styles.textInputContainer}>
-            <Text style={styles.textInputTitle}>Password</Text>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={this.onChangePasswordText}
-              value={this.state.password}
-              secureTextEntry
-              underlineColorAndroid="rgba(0,0,0,0)"
-            />
-          </View>
-
-          <Button
-            containerViewStyle={styles.loginButtonContainer}
-            buttonStyle={styles.loginButton}
-            rounded
-            title={this.state.isLoggingInWithEmail ? '' : 'Login'}
-            loading={this.state.isLoggingInWithEmail}
-            onPress={this.onPressLoginButton}
-            disabled={
-              this.state.isLoggingInWithEmail ||
-              this.state.isLoggingInWithFacebook ||
-              this.state.email.length === 0 ||
-              this.state.password.length === 0
-            }
-          />
-
-          <SocialIcon
-            style={styles.facebookButton}
-            title="Sign In With Facebook"
-            button
-            type="facebook"
-            loading={this.state.isLoggingInWithFacebook}
-            onPress={this.onPressFacebookButton}
-            onLongPress={this.onPressFacebookButton}
-            disabled={
-              this.state.isLoggingInWithEmail ||
-              this.state.isLoggingInWithFacebook
-            }
-          />
-
-          <Button
-            containerViewStyle={styles.signUpButtonContainer}
-            buttonStyle={styles.signUpButton}
-            rounded
-            title="Sign Up with Email"
-            onPress={this.onPressSignUpButton}
-          />
-        </KeyboardAvoidingView>
+        <LoginForm
+          loginDidSuccess={this.loginDidSuccess}
+          onPressSignUpButton={this.onPressSignUpButton}
+        />
       </View>
     );
   }
@@ -239,61 +36,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
-  title: {
-    fontSize: 20,
-  },
-  textInputContainer: {
-    marginTop: 20,
-  },
-  textInputTitle: {
-    fontSize: 12,
-    marginBottom: 13,
-  },
-  textInput: {
-    height: 50,
-    borderColor: '#DAE0E4',
-    backgroundColor: '#F3F6F8',
-    borderWidth: 1,
-    borderRadius: 4,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  loginButtonContainer: {
-    marginTop: 40,
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  loginButton: {
-    height: 50,
-  },
-  signUpButtonContainer: {
-    marginTop: 40,
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  signUpButton: {
-    height: 50,
-  },
-  facebookButtonContainer: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  facebookButton: {
-    marginLeft: 0,
-    marginRight: 0,
-    height: 50,
-  },
 });
-
-const LoginWithEmail = graphql(LoginWithEmailMutation, {
-  name: 'loginWithEmail',
-});
-
-const LoginWithFacebook = graphql(LoginWithFacebookMutation, {
-  name: 'loginWithFacebook',
-});
-
-export default compose(LoginWithEmail, LoginWithFacebook)(LoginScreen);
