@@ -5,11 +5,17 @@ import {
 } from 'react-navigation';
 import LoginScreen from '../screens/Login';
 import SignUpScreen from '../screens/SignUp';
-import HelloScreen from '../screens/Hello';
+import HomeScreen from '../screens/Home';
+import ExploreScreen from '../screens/Explore';
+import NotifictionsScreen from '../screens/Notifications';
+import ProfileScreen from '../screens/Profile';
 import AuthLoadingScreen from '../screens/AuthLoading';
 
 const AppStack = TabNavigator({
-  Home: HelloScreen,
+  Home: HomeScreen,
+  Explore: ExploreScreen,
+  Notifications: NotifictionsScreen,
+  Profile: ProfileScreen,
 });
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen });
 
