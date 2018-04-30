@@ -4,6 +4,10 @@ export const LoginWithEmailMutation = gql`
   mutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
+      refreshToken
+      user {
+        id
+      }
     }
   }
 `;
@@ -12,6 +16,10 @@ export const LoginWithFacebookMutation = gql`
   mutation($facebookAccessToken: String!) {
     loginWithFacebook(facebookAccessToken: $facebookAccessToken) {
       token
+      refreshToken
+      user {
+        id
+      }
     }
   }
 `;
@@ -30,6 +38,10 @@ export const SignUpWithEmailMutation = gql`
       password: $password
     ) {
       token
+      refreshToken
+      user {
+        id
+      }
     }
   }
 `;
@@ -48,6 +60,10 @@ export const SignUpWithFacebookMutation = gql`
       facebookAccessToken: $facebookAccessToken
     ) {
       token
+      refreshToken
+      user {
+        id
+      }
     }
   }
 `;

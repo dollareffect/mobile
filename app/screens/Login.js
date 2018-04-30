@@ -12,11 +12,17 @@ import {
 import { Button, SocialIcon } from 'react-native-elements';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
+import moment from 'moment';
 import {
   LoginWithEmailMutation,
   LoginWithFacebookMutation,
 } from '../graphql/mutations';
-import { USER_TOKEN_KEY } from '../config/constants';
+import {
+  USER_TOKEN_KEY,
+  USER_ID_KEY,
+  USER_TOKEN_EXPIRATION_KEY,
+  USER_REFRESH_TOKEN_KEY,
+} from '../config/constants';
 import * as facebook from '../lib/facebook';
 
 type Props = {};
@@ -35,9 +41,16 @@ class LoginScreen extends Component<Props> {
     };
   }
 
-  saveToken = async token => {
+  saveToken = async (token, refreshToken, userId) => {
     // save to async storage
-    await AsyncStorage.setItem(USER_TOKEN_KEY, token);
+    const tokenExpirationDate = moment().add('1', 'hours');
+
+    await AsyncStorage.multiSet([
+      [USER_TOKEN_KEY, token],
+      [USER_ID_KEY, userId],
+      [USER_REFRESH_TOKEN_KEY, refreshToken],
+      [USER_TOKEN_EXPIRATION_KEY, tokenExpirationDate.format()],
+    ]);
   };
 
   loginDidSuccess = () => {
@@ -55,7 +68,11 @@ class LoginScreen extends Component<Props> {
       })
       .then(async result => {
         console.log('result', result);
-        await this.saveToken(result.data.loginWithFacebook.token);
+        await this.saveToken(
+          result.data.loginWithFacebook.token,
+          result.data.loginWithFacebook.refreshToken,
+          result.data.loginWithFacebook.user.id,
+        );
         this.loginDidSuccess();
       })
       .catch(error => {
@@ -98,7 +115,12 @@ class LoginScreen extends Component<Props> {
       })
       .then(async result => {
         console.log('result', result);
-        await this.saveToken(result.data.login.token);
+        await this.saveToken(
+          result.data.login.token,
+          result.data.login.refreshToken,
+          result.data.login.user.id,
+        );
+
         this.loginDidSuccess();
       })
       .catch(error => {
