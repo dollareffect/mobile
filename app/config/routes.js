@@ -3,6 +3,7 @@ import {
   StackNavigator,
   SwitchNavigator,
 } from 'react-navigation';
+import SplashScreen from '../screens/Splash';
 import LoginScreen from '../screens/Login';
 import SignUpScreen from '../screens/SignUp';
 import HomeScreen from '../screens/Home';
@@ -17,7 +18,11 @@ const AppStack = TabNavigator({
   Notifications: NotifictionsScreen,
   Profile: ProfileScreen,
 });
-const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen });
+const AuthStack = StackNavigator({
+  Splash: SplashScreen,
+  Login: LoginScreen,
+  SignUp: SignUpScreen,
+});
 
 const AppSwitchNavigator = SwitchNavigator(
   {
