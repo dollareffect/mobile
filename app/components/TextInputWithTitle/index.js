@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import ViewPropTypes from 'ViewPropTypes';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
   textInputStyle: mixed,
   titleStyle: mixed,
   textInputProps: mixed,
+  title: string,
 };
 
 export default class TextInputWithTitle extends PureComponent<Props> {
@@ -15,13 +17,14 @@ export default class TextInputWithTitle extends PureComponent<Props> {
     containerStyle: ViewPropTypes.style,
     textInputStyle: ViewPropTypes.style,
     titleStyle: ViewPropTypes.style,
+    title: PropTypes.string,
   };
 
   render() {
     return (
       <View style={[styles.container, this.props.containerStyle]}>
         <Text style={[styles.textInputTitle, this.props.titleStyle]}>
-          Email
+          {this.props.title}
         </Text>
         <TextInput
           style={[styles.textInput, this.props.textInputStyle]}
