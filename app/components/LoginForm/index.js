@@ -135,7 +135,6 @@ class LoginForm extends PureComponent<Props> {
                 this.state.password.length === 0
               }
             />
-
             <TouchableOpacity
               style={styles.footerButton}
               onPress={this.onPressSignUpButton}>
