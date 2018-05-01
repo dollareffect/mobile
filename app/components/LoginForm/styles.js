@@ -2,12 +2,27 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
+  header: {
+    width: '100%',
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
-    fontSize: 20,
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
+  },
+  subtitle: {
+    fontSize: 11,
+    color: 'white',
+  },
+  formContainer: {
+    marginTop: 47,
+    marginLeft: 20,
+    marginRight: 20,
   },
   textInputContainer: {
     marginTop: 20,
@@ -41,13 +56,25 @@ export default StyleSheet.create({
   signUpButton: {
     height: 50,
   },
-  facebookButtonContainer: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
   facebookButton: {
     marginLeft: 0,
     marginRight: 0,
     height: 50,
+  },
+  footerButton: {
+    marginTop: 70,
+  },
+  footerButtonText: {
+    color: '#0E4672',
+    fontWeight: '400',
+    fontSize: 14,
+  },
+  footerTextContainer: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    height: 30,
+  },
+  signUpText: {
+    fontWeight: '600',
   },
 });
