@@ -5,9 +5,7 @@ import LoginForm from '../components/LoginForm';
 
 type Props = {};
 export default class LoginScreen extends Component<Props> {
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = {};
 
   loginDidSuccess = () => {
     const { navigate } = this.props.navigation;
@@ -34,8 +32,6 @@ export default class LoginScreen extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
     backgroundColor: 'white',
   },
 });
