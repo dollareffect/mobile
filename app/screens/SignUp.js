@@ -26,10 +26,7 @@ export default class SignUpScreen extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <SignUpForm
-          fbProfile={this.state.fbProfile}
-          signUpDidSuccess={this.signUpDidSuccess}
-        />
+        <SignUpForm fbProfile={this.state.fbProfile} signUpDidSuccess={this.signUpDidSuccess} />
       </View>
     );
   }

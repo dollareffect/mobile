@@ -5,15 +5,13 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "eslint": "eslint app/**",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "eslint-check":
+      "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "test": "jest",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
+    "*.js": ["eslint --fix", "git add"]
   },
   "dependencies": {
     "apollo-client-preset": "^1.0.8",
@@ -68,15 +66,7 @@
       "node_modules/(?!react-native|react-navigation)/"
     ]
   },
-  "prettier": {
-    "jsxBracketSameLine": true,
-    "semi": true,
-    "singleQuote": true
-  },
   "standard": {
-    "globals": [
-      "fetch",
-      "FormData"
-    ]
+    "globals": ["fetch", "FormData"]
   }
 }

@@ -16,10 +16,7 @@ import ViewPropTypes from 'ViewPropTypes';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TextInputWithTitle from '../TextInputWithTitle';
-import {
-  SignUpWithEmailMutation,
-  SignUpWithFacebookMutation,
-} from '../../graphql/mutations';
+import { SignUpWithEmailMutation, SignUpWithFacebookMutation } from '../../graphql/mutations';
 import { saveToken } from '../../lib/authStorage';
 import * as facebook from '../../lib/facebook';
 
@@ -129,16 +126,14 @@ class SignUpForm extends Component<Props> {
     if (this.state.name.length === 0) return false;
     if (this.state.username.length === 0) return false;
     if (this.state.email.length === 0) return false;
-    if (this.state.password.length === 0 && !this.state.isFacebookSignUp)
-      return false;
+    if (this.state.password.length === 0 && !this.state.isFacebookSignUp) return false;
 
     return true;
   };
 
   validateForm = () =>
     new Promise((resolve, reject) => {
-      if (!/^[ a-z]+$/i.test(this.state.name))
-        return reject(Error('Name must be alpha.'));
+      if (!/^[ a-z]+$/i.test(this.state.name)) return reject(Error('Name must be alpha.'));
 
       if (!validator.isAlphanumeric(this.state.username))
         return reject(Error('Username must be alphanumeric.'));
@@ -146,8 +141,7 @@ class SignUpForm extends Component<Props> {
       if (this.state.username.length < 3)
         return reject(Error('Username must be 3 or more characters.'));
 
-      if (!validator.isEmail(this.state.email))
-        return reject(Error('Email is invalid.'));
+      if (!validator.isEmail(this.state.email)) return reject(Error('Email is invalid.'));
 
       if (this.state.password.length < 3 && !this.state.isFacebookSignUp)
         return reject(Error('Password must be 3 or more characters.'));
@@ -166,9 +160,7 @@ class SignUpForm extends Component<Props> {
             source={require('../../images/gradient-header.png')}
             style={styles.header}>
             <Text style={styles.title}>Be part of the Dollar Effect.</Text>
-            <Text style={styles.subtitle}>
-              Create an account using your Email.
-            </Text>
+            <Text style={styles.subtitle}>Create an account using your Email.</Text>
           </ImageBackground>
           <View style={styles.formContainer}>
             <TextInputWithTitle
