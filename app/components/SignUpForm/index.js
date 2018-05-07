@@ -157,12 +157,11 @@ class SignUpForm extends Component<Props> {
 
   render() {
     return (
-      <ScrollView style={[styles.container, this.props.containerStyle]}>
-        <KeyboardAvoidingView
-          style={{
-            flex: 1,
-          }}
-          behavior="padding">
+      <KeyboardAvoidingView
+        style={[styles.container, this.props.containerStyle]}
+        behavior="position"
+        enabled>
+        <ScrollView>
           <ImageBackground
             source={require('../../images/gradient-header.png')}
             style={styles.header}>
@@ -225,8 +224,8 @@ class SignUpForm extends Component<Props> {
               disabled={!this.shouldEnableCreateAccountButton()}
             />
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
