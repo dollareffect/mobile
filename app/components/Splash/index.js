@@ -107,16 +107,10 @@ class Splash extends PureComponent<Props> {
           onPress={this.props.onPressLoginWithEmail}
         />
 
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={this.props.onPressSignUp}>
+        <TouchableOpacity style={styles.footerButton} onPress={this.props.onPressSignUp}>
           <View style={styles.footerTextContainer}>
-            <Text style={styles.footerButtonText}>
-              Don&apos;t have an account?{' '}
-            </Text>
-            <Text style={[styles.footerButtonText, styles.signUpText]}>
-              Sign Up
-            </Text>
+            <Text style={styles.footerButtonText}>Don&apos;t have an account? </Text>
+            <Text style={[styles.footerButtonText, styles.signUpText]}>Sign Up</Text>
           </View>
         </TouchableOpacity>
       </View>

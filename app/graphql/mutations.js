@@ -25,18 +25,8 @@ export const LoginWithFacebookMutation = gql`
 `;
 
 export const SignUpWithEmailMutation = gql`
-  mutation(
-    $email: String!
-    $username: String!
-    $name: String!
-    $password: String!
-  ) {
-    signUp(
-      email: $email
-      username: $username
-      name: $name
-      password: $password
-    ) {
+  mutation($email: String!, $username: String!, $name: String!, $password: String!) {
+    signUp(email: $email, username: $username, name: $name, password: $password) {
       token
       refreshToken
       user {
@@ -47,12 +37,7 @@ export const SignUpWithEmailMutation = gql`
 `;
 
 export const SignUpWithFacebookMutation = gql`
-  mutation(
-    $email: String!
-    $username: String!
-    $name: String!
-    $facebookAccessToken: String!
-  ) {
+  mutation($email: String!, $username: String!, $name: String!, $facebookAccessToken: String!) {
     signUpWithFacebook(
       email: $email
       username: $username

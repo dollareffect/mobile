@@ -1,8 +1,4 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  defaultDataIdFromObject,
-} from 'apollo-client-preset';
+import { ApolloClient, InMemoryCache, defaultDataIdFromObject } from 'apollo-client-preset';
 import { execute, makePromise, concat } from 'apollo-link';
 import fetch from 'node-fetch';
 import { setContext } from 'apollo-link-context';
@@ -57,9 +53,7 @@ const refreshTokenIfNeeded = async () => {
   const token = await AsyncStorage.getItem(USER_TOKEN_KEY);
   if (!token) return null;
   // next we check if token already expired
-  const tokenExpiration = moment(
-    await AsyncStorage.getItem(USER_TOKEN_EXPIRATION_KEY),
-  );
+  const tokenExpiration = moment(await AsyncStorage.getItem(USER_TOKEN_EXPIRATION_KEY));
 
   if (tokenExpiration.isAfter(moment())) return token; // token still valid
   // refresh token

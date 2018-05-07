@@ -23,9 +23,7 @@ export default class TextInputWithTitle extends PureComponent<Props> {
   render() {
     return (
       <View style={[styles.container, this.props.containerStyle]}>
-        <Text style={[styles.textInputTitle, this.props.titleStyle]}>
-          {this.props.title}
-        </Text>
+        <Text style={[styles.textInputTitle, this.props.titleStyle]}>{this.props.title}</Text>
         <TextInput
           style={[styles.textInput, this.props.textInputStyle]}
           underlineColorAndroid="rgba(0,0,0,0)"
