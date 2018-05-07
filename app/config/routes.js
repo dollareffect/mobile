@@ -1,8 +1,4 @@
-import {
-  TabNavigator,
-  StackNavigator,
-  SwitchNavigator,
-} from 'react-navigation';
+import { TabNavigator, StackNavigator, SwitchNavigator } from 'react-navigation';
 import SplashScreen from '../screens/Splash';
 import LoginScreen from '../screens/Login';
 import SignUpScreen from '../screens/SignUp';
