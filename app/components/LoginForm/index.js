@@ -135,10 +135,16 @@ class LoginForm extends PureComponent<Props> {
                 this.state.password.length === 0
               }
             />
-            <TouchableOpacity style={styles.footerButton} onPress={this.onPressSignUpButton}>
+            <TouchableOpacity
+              style={styles.footerButton}
+              onPress={this.onPressSignUpButton}>
               <View style={styles.footerTextContainer}>
-                <Text style={styles.footerButtonText}>Don&apos;t have an account? </Text>
-                <Text style={[styles.footerButtonText, styles.signUpText]}>Sign Up</Text>
+                <Text style={styles.footerButtonText}>
+                  Don&apos;t have an account?{' '}
+                </Text>
+                <Text style={[styles.footerButtonText, styles.signUpText]}>
+                  Sign Up
+                </Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -63,17 +63,6 @@
     "testResultsProcessor": "jest-junit",
     "transformIgnorePatterns": ["node_modules/(?!react-native|react-navigation)/"]
   },
-  "prettier": {
-    "printWidth": 100,
-    "useTabs": false,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "semi": true,
-    "trailingComma": "all",
-    "jsxBracketSameLine": true,
-    "bracketSpacing": true,
-    "arrowParens": "avoid"
-  },
   "standard": {
     "globals": ["fetch", "FormData"]
   }
