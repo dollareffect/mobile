@@ -6,7 +6,19 @@
     "mocha": true
   },
   "rules": {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": [
+      "error",
+      {
+        "useTabs": false,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "semi": true,
+        "trailingComma": "all",
+        "jsxBracketSameLine": true,
+        "bracketSpacing": true,
+        "arrowParens": "avoid"
+      }
+    ],
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "no-unused-expressions": 0,
