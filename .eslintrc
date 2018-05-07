@@ -9,8 +9,14 @@
     "prettier/prettier": [
       "error",
       {
+        "useTabs": false,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "semi": true,
         "trailingComma": "all",
-        "singleQuote": true
+        "jsxBracketSameLine": true,
+        "bracketSpacing": true,
+        "arrowParens": "avoid"
       }
     ],
     "no-underscore-dangle": 0,

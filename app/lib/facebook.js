@@ -1,4 +1,9 @@
-import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import {
+  LoginManager,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
 
 export const login = (permissions = ['email', 'public_profile']) =>
   new Promise((resolve, reject) => {
