@@ -6,13 +6,7 @@
     "mocha": true
   },
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "all",
-        "singleQuote": true
-      }
-    ],
+    "prettier/prettier": ["error"],
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "no-unused-expressions": 0,
