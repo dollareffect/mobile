@@ -12,12 +12,17 @@ import NotifictionsScreen from '../screens/Notifications';
 import ProfileScreen from '../screens/Profile';
 import AuthLoadingScreen from '../screens/AuthLoading';
 
+const ProfileStack = StackNavigator({
+  Profile: ProfileScreen,
+});
+
 const AppStack = TabNavigator({
   Home: HomeScreen,
   Explore: ExploreScreen,
   Notifications: NotifictionsScreen,
-  Profile: ProfileScreen,
+  Profile: ProfileStack,
 });
+
 const AuthStack = StackNavigator({
   Splash: SplashScreen,
   Login: LoginScreen,
