@@ -7,6 +7,7 @@
     "eslint": "eslint app/**",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "test": "jest",
+    "prettier": "prettier --write 'app/**/*.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -23,7 +24,7 @@
     "graphql": "^0.13.1",
     "lodash": "^4.17.19",
     "moment": "^2.22.1",
-    "node-fetch": "^2.0.0",
+    "node-fetch": "^2.6.1",
     "react": "16.2.0",
     "react-apollo": "^2.0.4",
     "react-native": "0.53.3",
